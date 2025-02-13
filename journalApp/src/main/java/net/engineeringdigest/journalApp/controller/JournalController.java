@@ -1,7 +1,7 @@
 package net.engineeringdigest.journalApp.controller;
 
 import net.engineeringdigest.journalApp.database.DataBase;
-import net.engineeringdigest.journalApp.entity.JournalEntity;
+import net.engineeringdigest.journalApp.entity.JournalEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +14,17 @@ import java.util.Map;
 @RequestMapping("/journal")
 public class JournalController {
 
+    /*
     @Autowired
     private DataBase dataBase;
 
     @GetMapping("get/all")
-    public List<JournalEntity> getAllList(){
+    public List<JournalEntry> getAllList(){
         return new ArrayList<>(dataBase.list.values());
     }
 
     @PostMapping("add/entry")
-    public boolean addEntity(@RequestBody JournalEntity journalEntity){
+    public boolean addEntity(@RequestBody JournalEntry journalEntity){
 
         if(!dataBase.list.containsKey(journalEntity.getId())){
             dataBase.list.put(journalEntity.getId(),journalEntity);
@@ -33,14 +34,14 @@ public class JournalController {
     }
 
     @PostMapping("add/all/entires")
-    public <T> Object addAllEntities(@RequestBody List<JournalEntity> journalEntities){
+    public <T> Object addAllEntities(@RequestBody List<JournalEntry> journalEntities){
 
         String msg1 = "Could not add this id because it is already exist in DataBase";
         String msg2 = "This id is added in DataBase";
 
-        Map<Integer,String> output = new HashMap<>();
+        Map<String,String> output = new HashMap<>();
 
-        for(JournalEntity journalEntity : journalEntities){
+        for(JournalEntry journalEntity : journalEntities){
             if(!dataBase.list.containsKey(journalEntity.getId())){
                 dataBase.list.put(journalEntity.getId(),journalEntity);
                 output.put(journalEntity.getId(),msg2);
@@ -64,12 +65,12 @@ public class JournalController {
     }
 
     @PutMapping("update/{id}")
-    public <T> Object updateEntity(@PathVariable int id, @RequestBody JournalEntity journalEntity){
+    public <T> Object updateEntity(@PathVariable String id, @RequestBody JournalEntry journalEntity){
 
-        Map<String, JournalEntity> output = new HashMap<>();
+        Map<String, JournalEntry> output = new HashMap<>();
 
         if(dataBase.list.containsKey(id)){
-            JournalEntity old = dataBase.list.get(id);
+            JournalEntry old = dataBase.list.get(id);
             dataBase.list.put(id,journalEntity);
             output.put("old",old);
             output.put("New",dataBase.list.get(id));
@@ -78,4 +79,6 @@ public class JournalController {
 
         return "Id " + id + " is not present in DataBase, please check the once again";
     }
+
+     */
 }
