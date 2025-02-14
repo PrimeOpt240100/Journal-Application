@@ -7,10 +7,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BaseResponse<T> {
+public class JournalApplicationApiResponse {
 
-    private String code;
+    private int code;
     private String msg;
-    private T data;
+    private Object data;
 
 }
