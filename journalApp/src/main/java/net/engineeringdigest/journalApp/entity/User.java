@@ -1,7 +1,6 @@
 package net.engineeringdigest.journalApp.entity;
 
-import com.sun.istack.internal.NotNull;
-import lombok.Data;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,17 +10,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "user")
-@Data
+@Document(collection = "users")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class User {
 
     @Id
     private ObjectId id;
+
     @Indexed(unique = true)
-    @NotNull
-    private String username;
-    @NotNull
+    @NonNull
+    private String userName;
+
+    @NonNull
     private String password;
+
+    private List<String> roles;
+
     @DBRef
     private List<JournalEntry> journalEntries = new ArrayList<>();
 }

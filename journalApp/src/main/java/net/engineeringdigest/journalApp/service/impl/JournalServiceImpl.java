@@ -2,15 +2,18 @@ package net.engineeringdigest.journalApp.service.impl;
 
 import net.engineeringdigest.journalApp.constants.JournalApplicationConstants;
 import net.engineeringdigest.journalApp.entity.JournalEntry;
+import net.engineeringdigest.journalApp.entity.User;
 import net.engineeringdigest.journalApp.repository.JournalEntityRespository;
+import net.engineeringdigest.journalApp.repository.UserRepository;
 import net.engineeringdigest.journalApp.response.JournalApplicationApiResponse;
 import net.engineeringdigest.journalApp.service.JournalService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
@@ -19,15 +22,39 @@ public class JournalServiceImpl implements JournalService {
     @Autowired
     private JournalEntityRespository journalEntityRespository;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Override
-    public void saveEntity(JournalEntry journalEntry){
-        journalEntityRespository.save(journalEntry);
+    @Transactional
+    public JournalApplicationApiResponse saveEntity(JournalEntry journalEntry, String userName){
+
+        User user = userRepository.findByUserName(userName);
+
+        journalEntry.setDate(LocalDate.now());
+        JournalEntry saved = journalEntityRespository.save(journalEntry);
+
+        user.getJournalEntries().add(saved);
+        userRepository.save(user);
+
+        return JournalApplicationApiResponse.builder()
+                .code(JournalApplicationConstants.SUCCESS)
+                .msg(JournalApplicationConstants.SUCCESS_MSG)
+                .data(journalEntry)
+                .build();
     }
 
     @Override
-    public List<JournalEntry> getAllEntries() {
-        return journalEntityRespository.findAll();
+    public JournalApplicationApiResponse getAllEntries(String userName) {
+
+        User user = userRepository.findByUserName(userName);
+
+        return JournalApplicationApiResponse.builder()
+                .code(JournalApplicationConstants.SUCCESS)
+                .msg(JournalApplicationConstants.SUCCESS_MSG)
+                .data(user.getJournalEntries())
+                .build();
     }
 
     @Override
@@ -41,21 +68,16 @@ public class JournalServiceImpl implements JournalService {
         try{
             JournalEntry oldJournalEntry = journalEntityRespository.findById(id).get();
 
-            if (oldJournalEntry != null) {
-                oldJournalEntry.setMsg(newJournalEntry.getMsg() != null && !newJournalEntry.getMsg().isEmpty() ? newJournalEntry.getMsg() : oldJournalEntry.getMsg());
-                oldJournalEntry.setTitle(newJournalEntry.getTitle() != null && !newJournalEntry.getTitle().isEmpty() ? newJournalEntry.getTitle() : oldJournalEntry.getTitle());
-                oldJournalEntry.setDate(LocalDateTime.now());
-                journalEntityRespository.save(oldJournalEntry);
+            oldJournalEntry.setMsg(newJournalEntry.getMsg() != null && !newJournalEntry.getMsg().isEmpty() ? newJournalEntry.getMsg() : oldJournalEntry.getMsg());
+            oldJournalEntry.setTitle(newJournalEntry.getTitle() != null && !newJournalEntry.getTitle().isEmpty() ? newJournalEntry.getTitle() : oldJournalEntry.getTitle());
+            oldJournalEntry.setDate(LocalDate.now());
+            journalEntityRespository.save(oldJournalEntry);
 
-                return JournalApplicationApiResponse.builder()
-                        .code(JournalApplicationConstants.SUCCESS)
-                        .msg(JournalApplicationConstants.SUCCESS_MSG)
-                        .data(oldJournalEntry)
-                        .build();
-            }
-            else{
-                throw new NullPointerException();
-            }
+            return JournalApplicationApiResponse.builder()
+                    .code(JournalApplicationConstants.SUCCESS)
+                    .msg(JournalApplicationConstants.SUCCESS_MSG)
+                    .data(oldJournalEntry)
+                    .build();
         } catch (NoSuchElementException | NullPointerException e){
 
             return JournalApplicationApiResponse.builder()

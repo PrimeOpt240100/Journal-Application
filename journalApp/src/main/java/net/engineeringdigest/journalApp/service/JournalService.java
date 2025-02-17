@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface JournalService {
 
-    void saveEntity(JournalEntry journalEntry);
+    JournalApplicationApiResponse saveEntity(JournalEntry journalEntry, String userName);
 
-    List<JournalEntry> getAllEntries();
+    JournalApplicationApiResponse getAllEntries(String userName);
 
     void deleteAllEntries();
 
