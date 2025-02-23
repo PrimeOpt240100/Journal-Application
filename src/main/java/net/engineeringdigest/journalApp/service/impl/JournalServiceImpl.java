@@ -10,7 +10,7 @@ import net.engineeringdigest.journalApp.service.JournalService;
 import net.engineeringdigest.journalApp.utils.CommonUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 
-@Component
+@Service
 public class JournalServiceImpl implements JournalService {
 
     @Autowired
