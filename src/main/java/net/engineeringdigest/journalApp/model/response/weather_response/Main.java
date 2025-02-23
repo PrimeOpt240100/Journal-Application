@@ -1,4 +1,4 @@
-package net.engineeringdigest.journalApp.model.response;
+package net.engineeringdigest.journalApp.model.response.weather_response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

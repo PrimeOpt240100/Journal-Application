@@ -2,7 +2,7 @@ package net.engineeringdigest.journalApp.service.impl;
 
 import net.engineeringdigest.journalApp.constants.JournalApplicationConstants;
 import net.engineeringdigest.journalApp.constants.JournalApplicationUrlConstants;
-import net.engineeringdigest.journalApp.model.response.WeatherResponse;
+import net.engineeringdigest.journalApp.model.response.weather_response.WeatherResponse;
 import net.engineeringdigest.journalApp.response.JournalApplicationApiResponse;
 import net.engineeringdigest.journalApp.service.PublicService;
 import org.springframework.beans.factory.annotation.Autowired;
