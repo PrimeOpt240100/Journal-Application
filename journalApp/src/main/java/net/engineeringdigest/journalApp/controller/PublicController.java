@@ -22,6 +22,6 @@ public class PublicController {
 
     @PostMapping("add")
     public ResponseEntity<JournalApplicationApiResponse> addUser(@RequestBody User user){
-        return new ResponseEntity<>(userService.addUser(user), HttpStatus.OK);
+        return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.OK);
     }
 }

@@ -15,9 +15,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("update/user/{name}")
+    @PutMapping("update/user")
     public ResponseEntity<JournalApplicationApiResponse> updateUserNameAndPassword(
-            @PathVariable String name, @RequestBody User newUser){
-        return new ResponseEntity<>(userService.updateUserNameAndPassword(name,newUser),HttpStatus.OK);
+            @RequestBody User newUser){
+        return new ResponseEntity<>(
+                userService.updateUserNameAndPassword(newUser)
+                ,HttpStatus.OK);
     }
 }

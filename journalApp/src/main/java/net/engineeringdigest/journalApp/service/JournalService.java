@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface JournalService {
 
-    JournalApplicationApiResponse saveEntity(JournalEntry journalEntry, String userName);
+    JournalApplicationApiResponse saveEntity(JournalEntry journalEntry);
 
-    JournalApplicationApiResponse getAllEntries(String userName);
+    JournalApplicationApiResponse getAllEntries();
 
-    void deleteAllEntries();
+    JournalApplicationApiResponse deleteEntryById(ObjectId id);
 
     JournalApplicationApiResponse updateJournalById(ObjectId id, JournalEntry newJournalEntry);
 

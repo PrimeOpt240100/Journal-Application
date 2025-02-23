@@ -6,6 +6,8 @@ import net.engineeringdigest.journalApp.repository.UserRepository;
 import net.engineeringdigest.journalApp.response.JournalApplicationApiResponse;
 import net.engineeringdigest.journalApp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public JournalApplicationApiResponse addUser(User user) {
+    public JournalApplicationApiResponse addNewUser(User user) {
 
         User oldUser = userRepository.findByUserName(user.getUserName());
 
@@ -40,7 +42,7 @@ public class UserServiceImpl implements UserService {
             return JournalApplicationApiResponse.builder()
                     .code(JournalApplicationConstants.SUCCESS)
                     .msg(JournalApplicationConstants.SUCCESS_MSG)
-                    .data(user)
+                    .data(newUser)
                     .build();
         }
 
@@ -64,12 +66,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public JournalApplicationApiResponse updateUserNameAndPassword(String name, User newUser) {
+    public JournalApplicationApiResponse updateUserNameAndPassword(User newUser) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String userName = authentication.getName();
 
         try{
-            User oldUser = userRepository.findByUserName(name);
+            User oldUser = userRepository.findByUserName(userName);
             oldUser.setUserName(newUser.getUserName());
-            oldUser.setPassword(newUser.getPassword());
+            oldUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             userRepository.save(oldUser);
             return JournalApplicationApiResponse.builder()
                     .code(JournalApplicationConstants.SUCCESS)

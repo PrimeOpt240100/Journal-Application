@@ -12,4 +12,6 @@ public interface JournalEntityRespository extends MongoRepository<JournalEntry, 
 
     Optional<JournalEntry> findById(ObjectId id);
 
+    void deleteById(ObjectId id);
+
 }

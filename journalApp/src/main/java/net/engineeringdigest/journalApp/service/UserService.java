@@ -5,10 +5,10 @@ import net.engineeringdigest.journalApp.response.JournalApplicationApiResponse;
 
 public interface UserService {
 
-    JournalApplicationApiResponse addUser(User user);
+    JournalApplicationApiResponse addNewUser(User user);
 
     JournalApplicationApiResponse getAllUsers();
 
-    JournalApplicationApiResponse updateUserNameAndPassword(String name, User newUser);
+    JournalApplicationApiResponse updateUserNameAndPassword(User newUser);
 
 }
