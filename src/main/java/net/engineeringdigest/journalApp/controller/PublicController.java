@@ -20,6 +20,7 @@ public class PublicController {
     @Autowired
     private PublicService publicService;
 
+
     @GetMapping("ping")
     public ResponseEntity<JournalApplicationApiResponse> ping(){
         return new ResponseEntity<>(JournalApplicationApiResponse.builder()

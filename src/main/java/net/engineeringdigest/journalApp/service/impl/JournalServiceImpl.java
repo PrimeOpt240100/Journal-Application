@@ -30,7 +30,7 @@ public class JournalServiceImpl implements JournalService {
 
 
     @Override
-    @Transactional
+    //@Transactional
     public JournalApplicationApiResponse saveEntity(JournalEntry journalEntry){
 
         User user = userRepository.findByUserName(CommonUtils.getUserName());

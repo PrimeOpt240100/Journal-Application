@@ -23,9 +23,4 @@ public class JournalApplication {
         return new MongoTransactionManager(dbFactory);
     }
 
-    @Bean
-    public RestTemplate getRestTemplate(){
-        return new RestTemplate();
-    }
-
 }
